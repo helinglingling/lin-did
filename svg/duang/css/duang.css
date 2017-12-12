@@ -1,0 +1,96 @@
+h1 {
+  color: #ff6462;
+  font-family: "airal";
+}
+article.sound {
+  width: 800px;
+  margin: 50px auto;
+  font-size: 0;
+}
+article.sound section.sound-content {
+  position: relative;
+  display: inline-block;
+  width: 400px;
+  font-size: 18px;
+  text-align: center;
+}
+article.sound section.sound-content img {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-top: 30px;
+}
+article.sound section.sound-content span {
+  display: block;
+}
+article.sound section.sound-content .sound-add {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 160px;
+  height: 100px;
+  padding: 20px 10px;
+  color: #0000ff;
+  transition: all 1s ease;
+}
+article.sound section.sound-content .sound-add p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  padding: 0 40px 0 30px;
+  opacity: 0;
+  transform: scale(0.3);
+  transition: opacity 0.3s ease 0.3s,
+                    transform 0.3s ease;
+}
+article.sound section.sound-content .sound-add svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: white;
+  stroke: #cf0;
+  stroke-width: 4;
+}
+article.sound section.sound-content .sound-add svg polygon {
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
+  transition: all 0.3s ease;
+}
+article.sound section.sound-content .sound-add svg #path1 {
+  opacity: 0;
+  transition: opacity 0.3s ease 0s;
+}
+article.sound section.sound-content .sound-add svg #path2 {
+  opacity: 0;
+  transition: opacity 0.3s ease .1s;
+}
+article.sound section.sound-content .sound-add svg #path3 {
+  opacity: 0;
+  transition: opacity 0.3s ease .2s;
+}
+article.sound section.sound-content .sound-add svg #path4 {
+  transform: scale(0.3);
+  opacity: 0;
+  transform-origin: center;
+  transition: opacity 0.3s ease 0.3s,
+                      transform 0.3s ease;
+}
+article.sound section.sound-content:hover .sound-add p {
+  opacity: 1;
+  transform: scale(1);
+}
+article.sound section.sound-content:hover .sound-add svg polygon {
+  stroke-dashoffset: 0;
+}
+article.sound section.sound-content:hover .sound-add svg #path1,
+article.sound section.sound-content:hover .sound-add svg #path2,
+article.sound section.sound-content:hover .sound-add svg #path3,
+article.sound section.sound-content:hover .sound-add svg #path4 {
+  opacity: 1;
+}
+article.sound section.sound-content:hover .sound-add svg #path4 {
+  transform: scale(1);
+}
+/*# sourceMappingURL=duang.css.map */

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>动画</title>
+    <style>
+        svg {
+            /*position: absolute;*/
+            border: 1px solid green;
+            width: 500;
+            height: 500;
+            /*left: 0;*/
+            /*top: 0;*/
+            background: white;
+        }
+
+        /*#path-move{*/
+            /*stroke-dasharray: 100,1000; *//* 变化前面的值，效果同设置偏移一样的*/
+            /*animation: dash 5s linear forwards;*/
+        /*}*/
+
+        #path-move{
+            stroke-dasharray: 1000;/* 让虚线里的每个小线段长度为 px*/
+            /*stroke-dashoffset:600; *//* 偏移*/
+            /*animation: dash 5s linear forwards;*/
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<svg viewBox="-100 -50 1000 1000" id="svg" xmlns="http://www.w3.org/2000/svg">
+    <text x="100" y="30" font-size="20px" font-family="Arial">我们一起愉快的玩耍吧
+        <set attributeName="x" attributeType="XML" to="60" begin="2s"></set>
+    </text>
+    <text x="100" y="60" font-size="20px" font-family="Arial">我们一起烧烤吧
+        <animate attributeName="x" to="50" begin="0s" dur="3s" repeatCount="indefinite"></animate>
+        <animate attributeName="opacity" begin="0s" dur="3s" from="1" to="0" repeatCount="indefinite"/>
+    </text>
+    <text x="100" y="260" font-size="20px" font-family="Arial">我们一起跑步吧
+        <animate attributeName="x" values="200;80;180" begin="1s;3s" dur="3s" repeatCount="indefinite"></animate>
+    </text>
+    <text x="100" y="300" font-size="20px" font-family="Arial">我们一起逛街吧
+        <animate id="x" attributeName="x" to="200" begin="1s" dur="3s" repeatCount="indefinite"></animate>
+        <animate attributeName="y" to="250" begin="x.repeat(2)" dur="3s"></animate>
+    </text>
+    <text x="100" y="350" font-size="20px" font-family="Arial">我们一起爬山吧
+        <animate id="linkMe" attributeName="x" to="200" begin="indefinite" dur="3s" repeatCount="indefinite"></animate>
+    </text>
+    <a xlink:href="#linkMe"><text x="50" y="320">点我去爬山</text></a>
+    <text x="0" y="0" font-size="20px" font-family="Arial">hello
+        <animateMotion to="50" begin="0s" dur="3s" rotate="auto" repeatCount="indefinite">
+            <mpath xlink:href="#motion"></mpath>
+        </animateMotion>
+        <!--<animateMotion to="50" begin="0s" dur="3s" path="M100 200 C150 50,200 90,300 80" rotate="auto" repeatCount="indefinite">-->
+        <!--</animateMotion>-->
+    </text>
+    <path id="motion" d="M100 90 C150 50,200 90,300 80" stroke="red" fill="none"></path>
+    <text x="0" y="0" font-size="20px" font-family="Arial">我们一起郊游吧
+       <animateTransform attributeName="transform" begin="0s" dur="10s" type="rotate" from="0" to="360" additive="sum" repeatCount="indefinite"></animateTransform>
+       <animateTransform attributeName="transform" begin="0s" dur="10s" type="scale" from="1" to="2" additive="sum" repeatCount="indefinite"></animateTransform>
+    </text>
+    <rect id="rect1" x="100" y="100" width="200" height="100" fill="blue">
+        <animate id="goRight" attributeType="XML" attributeName="x" begin="0;goLeft.end + 1s"
+                 from="100" to="300" dur="3s" fill="freeze">
+        </animate>
+        <animate id="goLeft" attributeType="XML" attributeName="x" begin="goRight.end + 1s"
+                 from="300" to="100" dur="3s" fill="freeze" repeatCount="indefinite">
+        </animate>
+    </rect>
+    <animate xlink:href="#rect1" attributeType="XML" attributeName="fill" from="blue" to="yellow" dur="3s" fill="freeze">
+    </animate>
+    <path id="path1" d="M500 50 v100 l100 50 l50 -100 l-50 -100 l-100 50" fill="#cf6"></path>
+
+    <path id="path-move" d="M153 334
+    C153 334 151 334 151 334
+    C151 339 153 344 156 344
+    C164 344 171 339 171 334
+    C171 322 164 314 156 314
+    C142 314 131 322 131 334
+    C131 350 142 364 156 364
+    C175 364 191 350 191 334
+    C191 311 175 294 156 294
+    C131 294 111 311 111 334
+    C111 361 131 384 156 384
+    C186 384 211 361 211 334
+    C211 300 186 274 156 274" fill="none" stroke="red" stroke-width="3"></path>
+
+    <polygon id="star" points="0 -10 2 -2 10 0 2 2 0 10 -2 2 -10 0 -2 -2" fill="black">
+        <animate id="star-animate" attributeName="opacity" begin="0s" dur="2s" from="1" to="0" repeatCount="indefinite"/>
+    </polygon>
+</svg>
+<script src="snap.svg-min.js"></script>
+<script>
+    var svg = Snap("#svg");
+    var path1 = Snap("#path1");
+    path1.hover(function(){
+        path1.animate({
+            d:"M500 50 v100 l100 50 l-25 -100 l25 -100 l-100 50"
+        },1000,mina.easeout);
+    },function(){
+        path1.animate({
+            d:"M500 50 v100 l100 50 l50 -100 l-50 -100 l-100 50"
+        },1000,mina.easeout);
+    });
+//    获得 path的长度
+    var path = document.querySelector('#path-move');
+    var length = path.getTotalLength();
+
+    var myPath = Snap("#path-move");
+    var animate = function(radio){
+
+        myPath.attr({
+            "stroke-dasharray":length
+        });
+        Snap.animate(length,radio,function(x){
+            myPath.attr({
+                "stroke-dashoffset":x
+            });
+        },5000,mina.linear,function(){
+            myPath.attr({
+                "stroke":"yellow"
+            });
+        })
+    }
+    animate(100);
+
+//    var animate = document.getElementsByTagName("animate")[0];
+//    if (animate) {
+//        document.getElementById("svg").onclick = function() {
+//            animate.beginElement();
+//        };
+//    }
+// svg指当前svg DOM元素
+// 暂停
+// svg.pauseAnimations();
+
+// 重启动
+// svg.unpauseAnimations()
+</script>
+</body>
+</html>

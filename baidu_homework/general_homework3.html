@@ -1,0 +1,114 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 08</title>
+    <style type="text/css">
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin:0;
+        }  
+        .form{
+            padding:20px;
+        }
+        .input_item{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .input_item select,.input_item input[type="text"]{
+            width: 40%;
+            line-height: 18px;
+            padding: 8px 10px;
+            border:1.5px solid #ccc;
+            border-radius: 4px;
+            flex: 1;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+        .input_item input[type="text"]{
+            width: 60%;
+        }
+        .input_item label{
+            
+            padding-right: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <form name="myFrom" class="form">
+        <section class="input_item">
+            <span class="item_radio">
+                <input type="radio" name="student" id="in_student" checked>
+                <label for="in_student">在校生</label>
+            </span>
+            <span class="item_radio">
+                <input type="radio" name="student" id="out_student">
+                <label for="out_student">非在校生</label>
+            </span>
+        </section>
+        <section class="input_item for_in">
+            <label>学校</label>
+            <select class="city" name="city">
+                <option value="0">北京</option>    
+                <option value="1">上海</option>    
+                <option value="2">苏州</option>    
+                <option value="3">南京</option>    
+            </select>
+            <select class="school" name="school">  
+            </select>
+        </section>
+        <section class="input_item for_out" style="display: none;">
+            <label>就业单位</label>
+            <input type="text" name="workspace">
+        </section>
+    </form>
+<script type="text/javascript">
+    var myFrom = document.querySelector(".form");
+    var selectSchool = myFrom.elements["school"];
+    var selectCity = myFrom.elements["city"];
+    var school = [["北京大学","清华大学","北京邮电大学","北京航空大学"],
+                ["上海大学","复旦大学","同济大学"],
+                ["苏州大学","苏州科技学院"],
+                ["南京大学","东南大学","河海大学"]];
+    // 初始化学校select选项
+    window.onload = function(){
+        for (var i = 0; i < school[0].length; i++) {
+            var item = school[0];
+            var newOption = new Option(item[i],i);
+            selectSchool.add(newOption);
+        }
+    };
+    // radio按钮切换
+    myFrom.addEventListener("click",function(event){
+        var target = event.target;
+        var radio = myFrom.elements["student"];
+        var forOut = document.querySelector(".for_out");
+        var forIn = document.querySelector(".for_in");
+        // 在校生和非在校生切换
+        if (radio[0] == target) {
+            forOut.style.display = "none";
+            forIn.style.display = "block";
+        }else if (radio[1] == target) {
+            forIn.style.display = "none";
+            forOut.style.display = "block";
+        }
+        
+    });
+    // 城市select变化，相应学校也变化
+    selectCity.addEventListener("change",function(event){
+        selectSchool.innerHTML = "";
+        var index = event.target.value;
+        for (var i = 0; i < school[index].length; i++) {
+            var newOption = new Option(school[index][i],i);
+            selectSchool.add(newOption);
+        }
+    })
+
+</script>
+</body>
+</html>

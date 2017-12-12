@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue动态数据绑定 </title>
+	 <meta name="viewport" content="width=device-width,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
+</head>
+<body>
+<button id="dodo">加油</button>
+<p>defineProperty，实现访问get和设置set都会反映，实现了$watch 触发一个回调函数，解决了“比较深”的对象 </p>
+<script type="text/javascript">
+
+	// 观察者构造函数
+	// function Observer(data){
+	// 	this.data = data;
+	// 	this.walk(data);
+	// }
+
+	// let p = Observer.prototype;
+
+	// // 此函数用于深层遍历对象的各个属性
+	// // 采用的是递归的思路
+	// // 因为我们要为对像的每一个属性绑定getter和setter
+	// p.walk = function(obj){
+	// 	let val;
+	// 	for(let key in obj){
+	// 		// 这里为什么要用hasOwnProperty进行过滤呢？
+	//         // 因为for...in 循环会把对象原型链上的所有可枚举属性都循环出来
+	//         // 而我们想要的仅仅是这个对象本身拥有的属性，所以要这么做
+	//         if (obj.hasOwnProperty(key)) {
+	//         	val = obj[key];
+	//         	// 这里进行判断，如果还没有遍历到最底层，继续new observe
+	//         	if (typeof val === 'object') {
+	//         		new Observer(val);
+	//         	}
+	//         	this.convert(key,val);
+	//         }
+	// 	}
+	// };
+
+	// p.convert = function(key,val){
+	// 	Object.defineProperty(this.data,key,{
+	// 		enumerable:true,
+	// 		configurable:true,
+	// 		get:function(){
+	// 			console.log('你访问了'+key);
+	// 			return val;
+	// 		},
+	// 		set:function(newVal){
+	// 			console.log('你设置了'+key);
+	// 			console.log('新的'+key+' = '+newVal);
+	// 			if (newVal === val) return;
+	// 			if (typeof newVal == 'object') {
+	// 				new Observer(newVal);
+	// 			}
+	// 			val = newVal;
+	// 			if (key == 'age') {
+	// 				defineEvent.addEvent('age', triggerEvent(newVal));			
+	// 			}
+	// 		}
+	// 	})
+	// };
+// 监听数组变化
+const aryMethods = ['push','pop','shift','unshift','splice','sort','reverse'];
+const arrayAugmentations = [];
+
+aryMethods.forEach((method)=>{
+	// 这里是原生Array的原型方法
+	let original = Array.prototype[method];
+	// 将push，pop等封装好的方法定义在对象arrayAugmentations的属性上
+	// 注：属性而非原型属性
+	arrayAugmentations[method] = function(){
+		console.log('我被改变啦');
+		// 调用对应的原生方法并返回结果
+		return original.apply(this,arguments);
+	}
+});
+
+let list = ['a','b','c'];
+// 将我们要监听的数组的原型指针指向上面定义的空数组对象
+// 别忘了这个空数组的属性上定义了我们封装好的push等方法
+list.__proto__ = arrayAugmentations;
+
+list.push('d');  // 我被改变啦！ 4
+
+// 这里的list2没有被重新定义原型指针，所以就正常输出
+let list2 = ['a', 'b', 'c'];
+list2.push('d');  // 4
+
+function FakeArray(){
+	Array.apply(this,arguments);
+}
+
+FakeArray.prototype = [];
+FakeArray.prototype.constructor = FakeArray;
+
+FakeArray.prototype.push = function(){
+	console.log('我被改变啦');
+	return Array.prototype.push.apply(this,arguments);
+}
+
+
+// Proxy, "比较深"的对象 无效
+function Observer(data){
+	return new Proxy(data,{
+		get:function(target,key){			
+			if (key in target) {
+				console.log('你访问了'+ key);
+				return target[key];
+			}else{
+				throw new Error('key does not exit!');
+			}
+		},
+		set:function(target,key,newVal){
+			console.log('你设置了'+ key);
+			console.log('新的'+key+" = "+newVal);
+			target[key] = newVal;
+		}
+	})
+}
+
+// defineProperty
+function Observer(data){
+	this.data = data;
+	this.makeObserver(data);
+	this.eventsBus = new Event();
+}
+
+Observer.prototype.setterAndGetter = function(key,val){
+	let _this = this;
+	Object.defineProperty(this.data,key,{
+		enumerable:true,
+		configurable:true,
+		get:function(){
+			console.log('你访问了'+key);
+			return val;
+		},
+		set:function(newVal){
+			console.log('你设置了'+ key);
+			console.log('新的'+key+" = "+newVal);
+			// 触发$watch方法
+			if (typeof newVal === 'object') {
+				new Observer(newVal);
+			}
+			_this.eventsBus.emit(key,val,newVal);
+			val = newVal;
+		}
+	})
+}
+
+Observer.prototype.makeObserver = function(obj){
+	let val;
+	for(let key in obj){
+		if (obj.hasOwnProperty(key)) {
+			val = obj[key];
+			// 深度遍历
+			if (typeof val === 'object') {
+				new Observer(val);
+			}
+		}
+		this.setterAndGetter(key,val);
+	}
+}
+
+Observer.prototype.$watch = function(attr,callback){
+	this.eventsBus.on(attr,callback);
+}
+// 实现一个事件
+function Event(){
+	this.events = {};
+}
+
+Event.prototype.on = function(attr,callback){
+	if (this.events[attr]) {
+		this.events[attr].push(callback);
+	}else{
+		this.events[attr] = [callback];
+	}
+}
+
+Event.prototype.off = function(attr){
+	for(let key in this.events){
+		if(this.events.hasOwnProperty(key) && key === attr){
+			delete this.events[key];
+		}
+	}
+}
+
+Event.prototype.emit = function(attr,...arg){
+	this.events[attr] && this.events[attr].forEach(function(item){
+		item(...arg);
+	})
+}
+
+	let data = {
+		user:{
+			name: "liangshaofeng",
+	    	age: 24
+		},
+		age:{
+			bidage:11,
+			xianage:22
+		},
+	    address: {
+	        city: "beijing"
+	    }
+	};
+
+	let app = new Observer(data);
+	app.$watch('age', function(oldVal, newVal){
+	    console.log(`我的年龄变了，原来是: ${oldVal}岁，现在是：${newVal}岁了`)
+	})
+ 
+app.$watch('age', function(oldVal, newVal){
+    console.log(`我的年龄真的变了诶，竟然年轻了${oldVal - newVal}岁`)
+})
+ 
+</script>
+</body>
+</html>

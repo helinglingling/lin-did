@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+html,body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+	[class$="par"]{
+		display: flex;
+		width: 100px;
+		height: 100px;
+		margin: 15px;
+		padding: 8px;
+		background-color: #e7e7e7;
+		border-radius: 10%;
+		box-shadow: inset 0 4px #ffffff,inset -4px 0 #ddd,inset 0 -4px #d7d7d7,inset 4px 0 #d7d7d7;
+	}
+	.pie{
+		width: 24px;
+		height: 24px;
+		margin: 4px;
+		border-radius: 50%;
+		background-color: #000;
+		box-shadow: inset 0 2px #111,inset 2px 0 #e7e7e7;
+	}
+	body{
+		display: flex;
+		/*flex-direction: row;*/
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+	}
+	.first-par{
+		align-items: center;
+		justify-content: center;
+	}
+	.second-par{
+		justify-content: space-between;
+	}
+	.second-par .pie:nth-of-type(2){
+		align-self: flex-end;
+	}
+	.third-par {
+		justify-content: space-between;
+		align-items: center;
+	}
+	.third-par .pie:nth-of-type(1){
+		align-self: flex-start;
+	}
+	.third-par .pie:nth-of-type(3){
+		align-self: flex-end;
+	}
+	.four-par,.five-par{
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	.four-par .column,.five-par .column{
+		display: flex;
+		justify-content: space-between;
+	}
+	.five-par .column:nth-of-type(2){
+		align-self: center;
+	}
+	.six-par{
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.six-par .column{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+</style>
+</head>
+<body>
+	<div class="first-par">
+		<span class="pie"></span>
+	</div>
+	<div class="second-par">
+		<span class="pie"></span>
+		<span class="pie"></span>
+	</div>
+	<div class="third-par">
+		<span class="pie"></span>
+		<span class="pie"></span>
+		<span class="pie"></span>
+	</div>
+	<div class="four-par">
+		<div class="column">
+			<span class="pie"></span>
+			<span class="pie"></span>
+		</div>
+		<div class="column">
+			<span class="pie"></span>
+			<span class="pie"></span>
+		</div>
+	</div>
+	<div class="five-par">
+		<div class="column">
+			<span class="pie"></span>
+			<span class="pie"></span>
+		</div>
+		<div class="column">
+			<span class="pie"></span>
+		</div>
+		<div class="column">
+			<span class="pie"></span>
+			<span class="pie"></span>
+		</div>
+	</div>
+	<div class="six-par">
+		<div class="column">
+			<span class="pie"></span>
+			<span class="pie"></span>
+			<span class="pie"></span>
+		</div>
+		<div class="column">
+			<span class="pie"></span>
+			<span class="pie"></span>
+			<span class="pie"></span>
+		</div>
+	</div>
+
+</body>
+</html>

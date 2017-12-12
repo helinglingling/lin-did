@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Text</title>
+    <style>
+        svg {
+            position: absolute;
+            border: 1px solid green;
+            width: 90%;
+            height: 90%;
+            left: 0;
+            top: 0;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+<svg id="svg" xmlns="http://www.w3.org/2000/svg">
+    <pattern id="pat" width="20" height="20" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse">
+        <path d="M0,0 h20 v20" stroke="#ccc" fill="none"></path>
+    </pattern>
+    <rect width="1000" height="800" fill="url(#pat)" />
+    <text x="100" y="100" dx="20 40 60" dy="-40" font-size="30px" font-family="Arial">xXFa我们一起愉快的玩耍吧</text>
+    <text x="100" y="100" font-size="20px" font-family="Arial">
+        <tspan fill="green" dy="20 -20">AXFa我们</tspan>
+        <tspan stroke="blue" fill="none" dy="10" text-anchor="center">一起愉快的玩耍吧</tspan>
+    </text>
+    <path d="M0,100 h800 M100,0 v500" stroke="red" fill="none"></path>
+
+    <path id="path1" d="M100 200 Q200 100,300 200 T600 200" stroke="blue" fill="none"></path>
+    <text font-size="20" x="30" y="0" text-anchor="end">
+        <textPath xlink:href="#path1" startOffset="100%">
+            一起愉快的
+            <tspan dx="30" dy="10" fill="green">玩耍</tspan> 吧hello,hello一起愉快的玩耍吧
+        </textPath>
+    </text>
+    <a xlink:href="http://www.zhangxinxu.com/GitHub/demo-Snap.svg/demo/basic/Element.add.php"
+       xlink:title="Snap.svg"
+       target="_link">
+        <polygon id="star" points="20 10 5 30 35 30" fill="yellow"></polygon>
+    </a>
+</svg>
+<script>
+
+</script>
+</body>
+</html>

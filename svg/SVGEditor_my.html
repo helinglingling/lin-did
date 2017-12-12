@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        svg {
+            border: 1px solid #008000;
+        }
+    </style>
+</head>
+<body>
+<form id="form">
+    <fieldset>
+        <legend>设置</legend>
+        <label>变换: <input id="trans" type="text" value="translate"></label>
+    </fieldset>
+</form>
+<svg id="svg" width="1000" height="600" viewBox="-200.5 -100.5 1000 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad1" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="50" y2="50">
+            <stop offset="0" stop-color="#1297fc"></stop>
+            <stop offset="0.5" stop-color="#a469dc"></stop>
+            <stop offset="1" stop-color="#ff8c00"></stop>
+        </linearGradient>
+        <radialGradient id="grad2" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.5" fx="0.5" fy="0.5">
+            <stop offset="0" stop-color="#1297fc"></stop>
+            <stop offset="0.5" stop-color="#a469dc"></stop>
+            <stop offset="1" stop-color="#ff8c00"></stop>
+        </radialGradient>
+        <pattern id="p1" x="0" y="0" width="0.2" height="0.2"
+                patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox">
+            <circle cx="0.1" cy="0.1" r="0.1" fill="red"></circle>
+        </pattern>
+    </defs>
+    <rect x="320" y="10" width="300" height="300" fill="url(#p1)"></rect>
+    <rect x="10" y="10" width="100" height="100" fill="url(#grad1)"></rect>
+    <rect x="120" y="10" width="100" height="100" fill="url(#grad2)"></rect>
+
+    <path d="M153 334
+C153 334 151 334 151 334
+C151 339 153 344 156 344
+C164 344 171 339 171 334
+C171 322 164 314 156 314
+C142 314 131 322 131 334
+C131 350 142 364 156 364
+C175 364 191 350 191 334
+C191 311 175 294 156 294
+C131 294 111 311 111 334
+C111 361 131 384 156 384
+C186 384 211 361 211 334
+C211 300 186 274 156 274"
+          style="fill:white;stroke:red;stroke-width:2"/>
+
+
+    <g id="word">
+        <line x1="0" y1="0" x2="1000" y2="0" stroke-width="1" stroke="pink"></line>
+        <line x1="0" y1="0" x2="0" y2="1000" stroke-width="1" stroke="pink"></line>
+        <g id="a">
+            <line x1="0" y1="0" x2="1000" y2="0" stroke-width="1" stroke="red"></line>
+            <line x1="0" y1="0" x2="0" y2="1000" stroke-width="1" stroke="red"></line>
+            <circle cx="0" cy="0" r="5" fill="yellow"></circle>
+            <circle cx="0" cy="100" r="5" fill="yellow"></circle>
+            <circle cx="0" cy="200" r="5" fill="yellow"></circle>
+            <circle cx="0" cy="300" r="5" fill="yellow"></circle>
+            <circle cx="0" cy="400" r="5" fill="yellow"></circle>
+            <circle cx="0" cy="500" r="5" fill="yellow"></circle>
+            <circle cx="100" cy="0" r="5" fill="yellow"></circle>
+            <circle cx="200" cy="0" r="5" fill="yellow"></circle>
+            <circle cx="300" cy="0" r="5" fill="yellow"></circle>
+            <circle cx="400" cy="0" r="5" fill="yellow"></circle>
+            <circle cx="500" cy="0" r="5" fill="yellow"></circle>
+            <g id="b">
+                <line x1="0" y1="0" x2="1000" y2="0" stroke-width="1" stroke="black"></line>
+                <line x1="0" y1="0" x2="0" y2="1000" stroke-width="1" stroke="black"></line>
+                <circle cx="0" cy="0" r="5" fill="blue"></circle>
+                <circle cx="0" cy="100" r="5" fill="blue"></circle>
+                <circle cx="0" cy="200" r="5" fill="blue"></circle>
+                <circle cx="0" cy="300" r="5" fill="blue"></circle>
+                <circle cx="0" cy="400" r="5" fill="blue"></circle>
+                <circle cx="0" cy="500" r="5" fill="blue"></circle>
+                <circle cx="100" cy="0" r="5" fill="blue"></circle>
+                <circle cx="200" cy="0" r="5" fill="blue"></circle>
+                <circle cx="300" cy="0" r="5" fill="blue"></circle>
+                <circle cx="400" cy="0" r="5" fill="blue"></circle>
+                <circle cx="500" cy="0" r="5" fill="blue"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
+
+<script>
+    function transform() {
+        b.setAttribute("transform", trans.value);
+    }
+    form.addEventListener('input', transform);
+</script>
+
+</body>
+</html>

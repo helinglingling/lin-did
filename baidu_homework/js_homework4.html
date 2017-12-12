@@ -1,0 +1,107 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+    <style type="text/css">
+      button{
+        border: 1px solid #ddd;
+        margin-right: 10px;
+      }
+      .input_val{
+        padding: 4px 10px;
+      }
+      .content{
+        margin-top: 15px;
+      }
+      .content .item_content{
+        display: inline-block;
+        padding: 10px;
+        margin-right: 10px;
+        background-color: red;
+        color: #fff;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+<body>
+<section class="options">
+  <input type="text" name="input_val" class="input_val">
+  <button class="left_in">左侧入</button>
+  <button class="right_in">右侧入</button>
+  <button class="left_out">左侧出</button>
+  <button class="right_out">右侧出</button>
+</section>
+<ul class="content" id="list">
+  <li class="item_content">10</li>
+  <li class="item_content">4</li>
+  <li class="item_content">8</li>
+  <li class="item_content">5</li>
+</ul>
+
+<script type="text/javascript">
+  var $input =document.querySelector(".input_val");
+  var $ul =document.querySelector(".content");
+  var $l_i =document.querySelector(".left_in");
+  var $l_u =document.querySelector(".left_out");
+  var $r_i =document.querySelector(".right_in");
+  var $r_u =document.querySelector(".right_out");
+  var input_val ;
+
+  function init(){
+    var childs = $ul.childNodes;
+    for(var i=0;i<childs.length;i++){
+      if(childs[i].nodeType == 3){      
+          $ul.removeChild(childs[i]);
+      }
+    }
+  }
+  init();
+  // 判断是否为数值，可以用isNAN()
+  function test_num(val){
+      return /\D+/.test(val) || val == "";
+  }
+  // 左侧入
+  function left_in(){
+      input_val = $input.value;
+      if(test_num(input_val)){
+          alert("输入的必须为数字！");
+
+      }else{
+          var temp = document.createElement("li");
+          temp.className = "item_content";
+          temp.innerHTML = input_val;
+          $ul.insertBefore(temp,$ul.firstChild);
+      }
+  }
+  // 右侧入
+  function right_in(){
+    input_val = $input.value;
+      if(test_num(input_val)){
+          alert("输入的必须为数字！");
+
+      }else{
+          var temp = document.createElement("li");
+          temp.className = "item_content";
+          temp.innerHTML = input_val;
+          $ul.appendChild(temp);
+      }
+  }
+  // 左侧出
+  function left_out(){
+      $ul.removeChild($ul.firstChild);
+  }
+  // 右侧出
+  function right_out(){
+      $ul.removeChild($ul.lastChild);
+  }
+  $l_i.addEventListener("click",left_in);
+  $l_u.addEventListener("click",left_out);
+  $r_i.addEventListener("click",right_in);
+  $r_u.addEventListener("click",right_out);
+  $ul.addEventListener("click",function(event){
+     $ul.removeChild(event.target);
+  })
+</script>
+</body>
+</html>

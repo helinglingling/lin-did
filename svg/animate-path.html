@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>动画- 翻页</title>
+    <style>
+        .show-list{position: relative;cursor: pointer;overflow: hidden;text-align: center}
+        .show-list1{width: 300px;height: 150px;background-color: pink}
+        .show-list2{float: left;width: 150px;height: 150px;background-color: darkcyan}
+        .show-list3{width: 150px;height: 150px;background-color: greenyellow}
+        svg{position: absolute;left: 0;bottom: 0;}
+    </style>
+</head>
+<body>
+<div class="show-list show-list1" date-svgColor = "deeppink">大叶</div>
+<div class="show-list show-list2" date-svgColor = "blue">大二也</div>
+<div class="show-list show-list3" date-svgColor = "yellow">第三页</div>
+<script src="snap.svg-min.js"></script>
+
+<script>
+    var list = document.querySelectorAll(".show-list");
+
+    [].slice.call(list).forEach(function(ele){
+        var svg_width = ele.clientWidth * 1.5,svg_height = ele.clientHeight * 1.5,svg_col = ele.getAttribute("date-svgColor");
+        var svg = Snap(svg_width,svg_height);
+        svg.attr({
+            "fill":svg_col
+        });
+        var path = svg.paper.path("");
+        ele.appendChild(svg.node);
+
+        Array.prototype.space = function(){
+            return this.join(",");
+        }
+
+        var p1 = [0,0], p2 = [svg_width,0], p3 = [svg_width,svg_height],p4_begin = [svg_width,0], p4_end = [0,svg_height];
+        var a = -svg_height/svg_width, b = svg_height;
+
+
+        ele.addEventListener("mouseenter",function(){
+            Snap.animate(svg_width,0,function(x){
+                var p4 = [x,a * x + b];
+                path.attr({
+                    d: "M" + [p1.space(),p2.space(),p3.space(),p4.space()].join("L")
+                });
+            },600,mina.easein);
+        });
+        ele.addEventListener("mouseleave",function(){
+            Snap.animate(0,svg_width,function(x){
+                var p4 = [x,a * x + b];
+                path.attr({
+                    d: "M" + [p1.space(),p2.space(),p3.space(),p4.space()].join("L")
+                });
+            },600,mina.easein);
+        })
+
+
+    });
+
+</script>
+</body>
+</html>

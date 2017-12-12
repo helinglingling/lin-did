@@ -1,0 +1,250 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>听指令的方块</title>
+    <style type="text/css">
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin:0;
+        }  
+        .table{
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 20px;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+        }
+        .table .dou{
+            position: absolute;
+            top: 9.09%;
+            left:9.09%;
+            width: 9.09%;
+            height: 9.09%;
+            background-color: red;
+            transition:all 0.4s ease-in-out;
+        }
+        .table .dou::before{
+            content: "";
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            right:0;
+            width: 20%;
+            height: 100%;
+            background-color: green;
+        }
+        .table .row{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .table .row .item{
+            width: 9.09%;
+            height: 9.09%;
+            border:1px solid #ddd;
+
+        }
+        .table .index{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 9.09%;
+            height: 9.09%;
+            font-size: 16px;
+        }
+        .option_box{
+            margin: 20px 0 0 80px;
+        }
+        .option_box .option,.option_box .go{
+            padding: 8px 10px;
+            border:1.5px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="table">
+        <div class="dou"></div>
+    </div>
+    <section class="option_box">
+        <select name="option" class="option">
+            <option>GO</option>
+            <option>TUN LEF</option>
+            <option>TUN RIG</option>
+            <option>TUN BAC</option>
+            <option>TRA LEF</option>
+            <option>TRA TOP</option>
+            <option>TRA RIG</option>
+            <option>TRA BOT</option>
+            <option>MOV LEF</option>
+            <option>MOV TOP</option>
+            <option>MOV RIG</option>
+            <option>MOV BOT</option>
+        </select>
+        <!-- <input type="text" name="option" class="option" value="go"> -->
+        <button class="go">执行</button>
+    </section>
+    <p>
+        <br>输入指令提示：<br>
+        GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）<br>
+        TUN LEF：向左转（逆时针旋转90度）<br>
+        TUN RIG：向右转（顺时针旋转90度）<br>
+        TUN BAC：向右转（旋转180度）<br>
+        TRA LEF：向屏幕的左侧移动一格，方向不变<br>
+        TRA TOP：向屏幕的上面移动一格，方向不变<br>
+        TRA RIG：向屏幕的右侧移动一格，方向不变<br>
+        TRA BOT：向屏幕的下面移动一格，方向不变<br>
+        MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格<br>
+        MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格<br>
+        MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格<br>
+        MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格<br>
+    </p>
+<script type="text/javascript">
+// 初始化，画界面
+function init(){
+    var $table = document.querySelector(".table");
+    for (var i = 0; i <= 10; i++) {
+        var $row = document.createElement("div");
+        $row.className = "row";
+        for (var j = 0; j <= 10; j++) {
+            if (i == 0 && j != 0) {
+                var $rowIndex = document.createElement("div");
+                $rowIndex.className = "index";
+                $rowIndex.innerHTML = j;
+                $row.appendChild($rowIndex);
+            }else if(j == 0 && i!= 0){
+                var $colIndex = document.createElement("div");
+                $colIndex.className = "index";
+                $colIndex.innerHTML = i;
+                $row.appendChild($colIndex);
+            }else if (i == 0&&j == 0) {
+                var $item = document.createElement("div");
+                $item.className = "item";
+                $item.style.border = "none";
+                $row.appendChild($item);
+            }else{
+                var $item = document.createElement("div");
+                $item.className = "item";
+                $row.appendChild($item);
+            }           
+        }
+        $table.appendChild($row);       
+    }
+    $go.focus();   
+}
+window.onload = function(){
+    init();
+}
+// 方块的方向
+var status = "right",step_len = 9.09,max_step = 10,min_step = 1;
+var dou = document.querySelector(".dou");
+
+// 行走一步
+function moveStep(status,step){
+    if (status == "right") {
+        if (step > max_step) {
+            // 右边边界
+            steps_l = max_step;
+            return;
+        }else{
+          // 向右边移动一步
+            dou.style.left = step_len*steps_l + "%";
+        }
+    }else if (status == "left") {
+        if (step <= min_step) {
+            // 左边边界
+            steps_l = min_step;
+            return;
+        }else{
+            // 向左边移动一步
+            dou.style.left = step_len*steps_l + "%";
+        }
+    }else if (status == "top") {
+        if (step <= min_step) {
+            // 上边边界
+            steps_t = min_step;
+            return;
+        }else{
+            // 向上边移动一步
+            dou.style.top = step_len*steps_t + "%";
+        }
+    }else if (status == "bottom") {
+        if (step > max_step) {
+            // 下边边界
+            steps_t = max_step;
+            return;
+        }else{
+            // 向下边移动一步
+            dou.style.top = step_len*steps_t + "%";
+        }
+    }
+}
+// 旋转方向 处理
+var num = 0;
+function rotate(num){
+    dou.style.transform = "rotate(" + 90*num + "deg)";
+}
+// 水平方向上和垂直方向上的步数
+var steps_l = 1,steps_t = 1;
+
+// 执行按钮事件监听
+var $go = document.querySelector(".go");
+$go.addEventListener("click",function(){
+    var option_txt = document.querySelector(".option").value.toUpperCase();
+    if (option_txt == "TUN LEF") {
+        rotate(--num);
+    }else if (option_txt == "TUN RIG") {
+        rotate(++num);
+    }else if (option_txt == "TUN BAC"){
+        num += 2;
+        rotate(num);
+    }else if (option_txt == "GO") {
+        var direct = "right";
+        if (Math.abs(num%4) == 0) {
+            direct = "right";
+            moveStep(direct,++steps_l);
+        }else if(Math.abs(num%4) == 2){
+            direct = "left";
+            moveStep(direct,--steps_l);
+        }else if (num%4 == -1 || num%4 == 3) {
+            direct = "top";
+            moveStep(direct,--steps_t);
+        }else if (num%4 == 1 || num%4 == -3) {
+            direct = "bottom";
+            moveStep(direct,++steps_t);
+        }
+    }else if (option_txt == "TRA LEF") {
+        moveStep("left",--steps_l);
+    }else if (option_txt == "TRA RIG") {
+        moveStep("right",++steps_l);
+    }else if (option_txt == "TRA TOP") {
+        moveStep("top",--steps_t);
+    }else if (option_txt == "TRA BOT") {
+        moveStep("bottom",++steps_t);
+    }else if (option_txt == "MOV LEF") {
+        num = -2;
+        rotate(num);
+        moveStep("left",--steps_l);
+    }else if (option_txt == "MOV RIG") {
+        num = 0;
+        rotate(num);
+        moveStep("right",++steps_l);
+    }else if (option_txt == "MOV TOP") {
+        num = -1;
+        rotate(num);
+        moveStep("top",--steps_t);
+    }else if (option_txt == "MOV BOT") {
+        num = 1;
+        rotate(num);
+        moveStep("bottom",++steps_t);
+    }
+    
+});
+</script>
+</body>
+</html>

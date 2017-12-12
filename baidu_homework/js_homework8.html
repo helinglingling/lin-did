@@ -1,0 +1,166 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 08</title>
+    <style type="text/css">
+    	div{
+    		display: flex;
+    		justify-content: space-between;
+    		flex-wrap: wrap;
+    		border:1px solid #000;
+    		padding: 20px;
+    		margin: 5px;
+			box-sizing: border-box;
+			background-color: #fff;
+    	}
+    	.a{
+    		margin-bottom: 20px;
+    	}
+    	.search{
+    		width: 150px;
+    		padding: 6px;
+    		line-height: 20px;
+    	}
+    </style>
+</head>
+<body>
+<div class="a">root
+	<div>b
+		<div>day</div>
+		<div>e
+			<div>杰克</div>
+			<div>科里</div>
+			<div>你好</div>
+			<div>中国</div>
+		</div>
+	</div>
+	<div>c
+		<div>f
+			<div>太阳花</div>
+			<div>孩子</div>
+			<div>hello</div>
+		</div>
+		<div>g
+			<div>欢迎</div>
+		</div>
+	</div>
+
+</div>
+<button class="front">前序遍历</button>
+<!-- <button class="middle">中序遍历</button> -->
+<button class="after">后序遍历</button>
+<input type="text" name="search" class="search" placeholder="查询内容">
+<script type="text/javascript">
+	// 遍历元素
+	var elements = [];
+	// 查询的元素
+	var choosedEle = [];
+	// 前序遍历
+	function preOrder(node){
+		if (node) {
+			elements.push(node);
+			if (node.childElementCount > 0) {
+				for (var i = 0; i < node.childNodes.length; i++) {
+					if(node.childNodes[i].nodeType == 1){
+						preOrder(node.childNodes[i]);
+					}
+				}
+				
+			}
+		}
+	}
+	// 中序遍历
+	// function inOrder(node){
+	// 	if (node) {
+	// 		inOrder(node.firstElementChild);
+	// 		elements.push(node);
+	// 		inOrder(node.lastElementChild);
+	// 	}
+	// }
+	// 后序遍历
+	function nextOrder(node){
+		if (node) {
+			if (node.childElementCount > 0) {
+				for (var i = 0; i < node.childNodes.length; i++) {
+					if(node.childNodes[i].nodeType == 1){
+						nextOrder(node.childNodes[i]);
+					}
+				}
+				
+			}
+			elements.push(node);
+		}
+	}
+	// 遍历的动态效果
+	function show(){
+		console.log(elements,elements.length);
+		var searchValue = document.querySelector(".search").value;
+		var i = 0;		
+		var times= setInterval(function(){
+			elements[i].style.backgroundColor = "red";
+			var text = elements[i].childNodes[0].nodeValue;
+			if (text == searchValue) {
+			// if (text.indexOf(searchValue) != -1) {
+				choosedEle.push(elements[i]);
+				console.log(choosedEle);
+			}
+			i++;
+			
+			setTimeout(function(){		
+				reset();
+				if (i == elements.length) {
+					clearInterval(times);
+					showResult();
+				}	
+			},390)	
+		},400);	
+	}
+	// 刷新
+	function reset(){
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].style.backgroundColor = "white";
+		}
+
+	}
+	// 最终查询结果
+	function showResult(){
+			console.log(choosedEle);
+		if (choosedEle.length > 0) {
+			alert("已找到相应的内容"+choosedEle.length+"条");
+			for (var i = 0; i < choosedEle.length; i++) {
+				choosedEle[i].style.backgroundColor = "green";
+			}
+		}		
+	}
+
+	var $root = document.querySelector(".a");
+	var $pre = document.querySelector(".front");
+	var $in = document.querySelector(".middle");
+	var $next = document.querySelector(".after");
+	// 绑定事件
+	$pre.addEventListener("click",function(){
+		reset();
+		elements = [];
+		choosedEle = [];
+		preOrder($root);
+		show();
+
+	});
+	// $in.addEventListener("click",function(){
+	// 	reset();
+	// 	elements = [];
+	// 	choosedEle = [];
+	// 	inOrder($root);
+	// 	show();
+	// });
+	$next.addEventListener("click",function(){
+		reset();
+		elements = [];
+		choosedEle = [];
+		nextOrder($root);
+		show();
+	})
+</script>
+</body>
+</html>

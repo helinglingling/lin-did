@@ -1,0 +1,73 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 08</title>
+    <style type="text/css">
+    	.input_item input{
+            line-height: 16px;
+            padding: 4px 8px;
+            border:2px solid #ccc;
+            border-radius: 4px;
+        }
+        .tips{
+            padding-left: 40px;
+        }
+        .tips.error{
+            color: red;
+        }
+        .tips.correct{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <!-- <form name="myFrom"> -->
+        <section class="input_item">
+            <label>名称</label>
+            <input type="text" name="name" value="" class="username">
+            <button type="" class="checkName">验证</button>
+            <p class="tips"></p>
+        </section>
+      <!--   <section>
+            
+        </section> -->
+    <!-- </form> -->
+<script type="text/javascript">
+    var checkName = document.querySelector(".checkName");
+    var tips = document.querySelector(".tips");
+    var len = 0;
+    checkName.addEventListener("click",function(){
+        var name = document.querySelector(".username");
+        var name_txt = name.value;
+        var name_arr = [];
+        if (name_txt) {
+            for (var i = 0; i < name_txt.length; i++) {
+                var item = name_txt.charCodeAt(i);
+                if (item > 255) {
+                    len += 2;
+                }else{
+                    len += 1;
+                }
+            }
+        }
+        if(len == 0){
+            tips.innerHTML = "姓名不能为空";
+            tips.className = "tips error";
+            name.style.borderColor = "red";
+        }else if(len > 16 || len < 4) {
+            tips.innerHTML = "姓名为4~16位字符";
+            tips.className = "tips error";
+            name.style.borderColor = "red";
+
+        }else{
+            tips.innerHTML = "名称格式正确";
+            tips.className = "tips correct";
+            name.style.borderColor = "#ddd";
+
+        }
+    });
+
+</script>
+</body>
+</html>

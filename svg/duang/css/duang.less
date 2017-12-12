@@ -1,0 +1,107 @@
+h1 {
+  color: #ff6462;
+  font-family: "airal";
+}
+
+article.sound {
+
+  width: 800px;
+  margin: 50px auto;
+  font-size: 0;
+  section.sound-content {
+    position: relative;
+    display: inline-block;
+    width: 400px;
+    font-size: 18px;
+    text-align: center;
+    img {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-top: 30px;
+    }
+    span {
+      display: block;
+    }
+    .sound-add {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 160px;
+      height: 100px;
+      padding: 20px 10px;
+      color: #0000ff;
+      transition: all 1s ease;
+      p {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        padding: 0 40px 0 30px;
+        opacity: 0;
+        transform: scale(0.3);
+        transition: opacity 0.3s ease 0.3s,
+                    transform 0.3s ease;
+      }
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        fill: white;
+        stroke: #cf0;
+        stroke-width: 4;
+
+        polygon{
+          stroke-dasharray:1500;
+          stroke-dashoffset:1500;
+          transition: all 0.3s ease;
+        }
+
+        #path1 {
+
+          opacity: 0;
+          transition: opacity 0.3s ease 0s;
+        }
+        #path2 {
+          opacity: 0;
+          transition: opacity 0.3s ease .1s;
+        }
+        #path3 {
+          opacity: 0;
+          transition: opacity 0.3s ease .2s;
+        }
+        #path4 {
+          transform: scale(0.3);
+          opacity: 0;
+          transform-origin: center;
+          transition: opacity 0.3s ease 0.3s,
+                      transform 0.3s ease;
+        }
+
+      }
+    }
+    &:hover {
+      .sound-add {
+        p {
+          opacity: 1;
+          transform:scale(1);
+        }
+        svg {
+
+          polygon{
+            stroke-dashoffset:0;
+          }
+
+          #path1, #path2, #path3, #path4 {
+            opacity: 1;
+          }
+          #path4{
+            transform:scale(1);
+          }
+        }
+      }
+    }
+  }
+
+}

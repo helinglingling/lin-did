@@ -1,0 +1,47 @@
+.table_box{
+  width: 500px;
+  
+}
+.table{
+  width: 100%;
+  border-top:1px solid #ddd;
+  border-left:1px solid #ddd;
+}
+.table td,.table th{
+  height: 34px;
+  text-align: center;
+  border-right:1px solid #ddd;
+  border-bottom:1px solid #ddd;
+  font-size: 14px;
+}
+.table th{
+  font-size: 16px;
+  background-color: #666;
+  color: #fff;
+}
+.table .sort{
+  position: relative;
+}
+.table .sort:before{
+  content: "";
+  position: absolute;
+  top: 24%;
+  right: 14%;
+  display: inline-block;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-bottom: 6px solid #fff;
+}
+.table .sort:after{
+  content: "";
+  position: absolute;
+  bottom: 24%;
+  right: 14%;
+  display: inline-block;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-top: 6px solid #fff;
+}
+
+
+

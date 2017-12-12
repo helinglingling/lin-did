@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .container {
+            /*width: 250px;*/
+            /*height: 220px;*/
+            perspective: 800px;
+            perspective-origin: 50% 50%;
+            overflow: hidden;
+        }
+
+        .container .pageGroup{
+            position: relative;
+            width: 200px;
+            height: 220px;
+            transform-style: preserve-3d;
+            margin: 0 auto;
+        }
+        .pageGroup .page {
+            position: absolute;
+            width: 160px;
+            height: 180px;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            font-size: 54px;
+            text-align: center;
+            transform-origin:bottom;
+            transition: transform 2s;
+        }
+
+        .pageGroup #page1 {
+
+        }
+
+        #page2,#page3,#page4,#page5,#page6{
+            transform: rotateX(90deg)
+        }
+        button {
+            width: 70px;
+            height: 22px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="pageGroup">
+        <div class="page" id="page1">1</div>
+        <div class="page" id="page2">2</div>
+        <div class="page" id="page3">3</div>
+        <div class="page" id="page4">4</div>
+        <div class="page" id="page5">5</div>
+        <div class="page" id="page6">6</div>
+    </div>
+</div>
+<button class="pre" value="">上一页</button>
+<button class="next" value="">下一页</button>
+<script src="../js/jquery.js"></script>
+<script>
+    $(function () {
+        var curIndex = 1;
+        $(".pre").click(function () {
+            if(curIndex <= 1){
+                return;
+            }
+            $(".container .page").eq(curIndex-1).css("transform","rotateX(90deg)");
+            curIndex --;
+            $(".container .page").eq(curIndex-1).css("transform","rotateX(0deg)");
+
+        });
+        $(".next").click(function () {
+            if(curIndex >= 6){
+                return;
+            }
+            $(".container .page").eq(curIndex-1).css("transform","rotateX(-90deg)");
+            curIndex ++;
+            $(".container .page").eq(curIndex-1).css("transform","rotateX(0deg)");
+        })
+    })
+</script>
+</body>
+</html>

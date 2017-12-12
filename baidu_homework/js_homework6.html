@@ -1,0 +1,129 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 05</title>
+    <style type="text/css">
+      button{
+        border: 1px solid #ddd;
+        margin-right: 10px;
+      }
+      .input_val{
+        padding: 4px 10px;
+      }
+      .content{
+        margin-top: 15px;
+      }
+      .content .item_content{
+        display: inline-block;
+        padding: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background-color: red;
+        color: #fff;
+        font-size: 16px;
+        vertical-align: bottom;
+      }
+      .input_text{
+        width: 200px;
+        height: 100px;
+        line-height: 16px;
+      }
+    </style>
+  </head>
+<body>
+<section class="options">
+  <textarea cols="100" rows="20" class="input_text"></textarea>
+  <button class="left_in">左侧入</button>
+  <button class="right_in">右侧入</button>
+  <button class="left_out">左侧出</button>
+  <button class="right_out">右侧出</button><br>
+  <input type="text" name="input_val" class="input_val">
+  <button class="search">查询</button>
+</section>
+<ul class="content" id="list">
+</ul>
+<script type="text/javascript">
+  var $textarea = document.querySelector(".input_text");
+  var $input =document.querySelector(".input_val");
+  var $ul =document.querySelector(".content");
+  var $l_i =document.querySelector(".left_in");
+  var $l_u =document.querySelector(".left_out");
+  var $r_i =document.querySelector(".right_in");
+  var $r_u =document.querySelector(".right_out");
+  var $search =document.querySelector(".search");
+  var input_val;
+  var val_arr = [];
+
+  // 限制添加数量60
+  function overLen(){
+      var len = $ul.childNodes.length;
+      if (len >= 60) {
+        alert("最多添加60个数字");
+        return false;
+      }else{
+        return true;
+      }
+  }
+  // 进
+  function ins(direction){
+      if(!overLen()){
+          return;
+      }
+      input_val = $textarea.value;
+          var temp = document.createElement("li");
+          temp.className = "item_content";
+          temp.innerHTML = input_val;
+          if(direction == "left"){
+              $ul.insertBefore(temp,$ul.firstChild); 
+              val_arr = [input_val].concat(val_arr);          
+          }else{
+              val_arr.push(input_val);
+              $ul.appendChild(temp);
+          }
+      console.log(val_arr);
+  }
+  // 出
+  function out(direction){
+    if(direction == "left"){
+      $ul.removeChild($ul.firstChild);
+       val_arr.unshift(input_val);
+    }else{
+      $ul.removeChild($ul.lastChild);
+       val_arr.pop(input_val);
+    }
+    console.log(val_arr);
+  }
+
+// 查询
+function search(){
+    var searchVal = $input.value;
+    var $li = document.querySelectorAll(".content li");
+    for (var i = 0; i < val_arr.length; i++) {
+       if(val_arr[i].indexOf(searchVal) != -1){
+          $li[i].style.color = "blue";
+       }else{
+         $li[i].style.color = "white";
+       }
+    }
+}
+
+
+  $l_i.addEventListener("click",function(){ins("left");});
+  $l_u.addEventListener("click",function(){out("left");});
+  $r_i.addEventListener("click",function(){
+      ins("right");
+  },false);
+  $r_u.addEventListener("click",function(){
+    out("right");
+  });
+  $ul.addEventListener("click",function(event){
+     $ul.removeChild(event.target);
+  });
+  $search.addEventListener("click",function(){
+   search();
+    
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>时钟</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            line-height: 0;
+            font-size: 0;
+        }
+
+        .svg-div {
+            width: 90%;
+            height: 600px;
+            margin: 20px auto;
+            text-align: center;
+            border: 1px solid #FFE2CC;
+
+        }
+    </style>
+</head>
+<body>
+<div class="svg-div">
+    <svg width="100%" height="100%" viewBox="-300 -300 600 600" preserveAspectRatio="xMidYMid slice">
+        <!--钟表数值-->
+        <defs>
+            <line id="timeLine" x1="0" y1="-78" x2="0" y2="-72" stroke-width="2" stroke="#333"></line>
+        </defs>
+        <line id="hourL" x1="0" y1="8" x2="0" y2="-50" stroke-width="3" stroke="#000"></line>
+        <line id="minL" x1="0" y1="8" x2="0" y2="-60" stroke-width="2" stroke="blue"></line>
+        <line id="secondL" x1="0" y1="8" x2="0" y2="-70" stroke-width="1" stroke="red"></line>
+
+        <g id="clock">
+            <circle cx="0" cy="0" r="3" fill="#333"></circle>
+            <circle id="circle" cx="0" cy="0" r="80" stroke="#aaa" stroke-width="5" fill="none"></circle>
+        </g>
+    </svg>
+</div>
+<script src="snap.svg-min.js"></script>
+<script>
+    var SVG_NS = "http://www.w3.org/2000/svg";
+    var XLINK_NS = "http://www.w3.org/1999/xlink";
+
+    var svg = document.querySelector("svg");
+    var circle = document.getElementById("circle"), c_width = circle.getAttribute("r");
+
+    function use(origin) {
+        var _use = document.createElementNS(SVG_NS, "use");
+        _use.setAttributeNS(XLINK_NS, "xlink:href", "#" + origin.id);
+        return _use;
+    }
+
+    function timeLine() {
+        var num = 12;
+        var timeLine = document.getElementById("timeLine");
+        var clock = document.getElementById("clock");
+        var line, deg = 0;
+        while (num--) {
+            deg = deg + 30;
+            line = use(timeLine);
+            line.setAttribute("transform", "rotate(" + deg + ")");
+            clock.appendChild(line);
+        }
+    }
+    timeLine();
+
+    //    秒针 行走
+    function move() {
+        var currentTime, hour, minute, second;
+        currentTime = new Date();
+        second = currentTime.getSeconds();
+        minute = currentTime.getMinutes();
+        hour = currentTime.getHours();
+
+        var hour_deg = (hour > 12 ? hour - 12 : hour) * (360/12), minute_deg = minute * 6, second_deg = second * 6;
+
+        if (second_deg >= 360) {
+            second_deg = 6;
+        } else {
+            second_deg += 6;
+            minute_deg += (second/60) * 6;
+        }
+        if( minute_deg >= 360){
+            minute_deg = 6;
+        }else{
+            hour_deg += (minute/60) * 30;
+        }
+        if(hour_deg >= 360){
+            hour_deg = 30;
+        }
+        var hour_move = document.getElementById("hourL");
+        var min_move = document.getElementById("minL");
+        var second_move = document.getElementById("secondL");
+
+        hour_move.setAttribute("transform", "rotate(" + hour_deg + ")");
+        min_move.setAttribute("transform", "rotate(" + minute_deg + ")");
+        second_move.setAttribute("transform", "rotate(" + second_deg + ")");
+
+    }
+
+    setInterval(function () {
+        move();
+    }, 1000);
+
+</script>
+</body>
+</html>

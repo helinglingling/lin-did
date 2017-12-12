@@ -1,0 +1,159 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 06</title>
+    <style type="text/css">
+      button{
+        border: 1px solid #ddd;
+        margin-right: 10px;
+      }
+      .input_val{
+        padding: 4px 10px;
+      }
+      .content{
+        margin-top: 15px;
+      }
+      .content .item_content{
+        display: inline-block;
+        padding: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background-color: red;
+        color: #fff;
+        font-size: 16px;
+        vertical-align: bottom;
+      }
+    </style>
+  </head>
+<body>
+<section class="options">
+  <input type="text" name="input_val" class="input_val">
+  <button class="left_in">左侧入</button>
+  <button class="right_in">右侧入</button>
+  <button class="left_out">左侧出</button>
+  <button class="right_out">右侧出</button>
+</section>
+<ul class="content" id="list">
+</ul>
+<button class="sort">排序</button>
+<script type="text/javascript">
+  var $input =document.querySelector(".input_val");
+  var $ul =document.querySelector(".content");
+  var $l_i =document.querySelector(".left_in");
+  var $l_u =document.querySelector(".left_out");
+  var $r_i =document.querySelector(".right_in");
+  var $r_u =document.querySelector(".right_out");
+  var $sort =document.querySelector(".sort");
+  var input_val;
+  var val_arr = [];
+
+  // 判断为数值,且10-100之间
+  function test_num(value){
+      if (isNaN(value)) {
+          return true;
+      }else if(value > 100 || value < 10){
+          return true;
+      }else{
+          val_arr.push(parseInt(value));
+          return false;
+      }
+  }
+  // 限制添加数量60
+  function overLen(){
+      var len = $ul.childNodes.length;
+      if (len >= 60) {
+        alert("最多添加60个数字");
+        return false;
+      }else{
+        return true;
+      }
+  }
+  // 进
+  function ins(direction){
+      if(!overLen()){
+          return;
+      }
+      input_val = $input.value;
+      if(test_num(input_val)){
+          alert("输入的必须为数字,且在10-100之间！");
+
+      }else{
+          var temp = document.createElement("li");
+          temp.className = "item_content";
+          temp.innerHTML = input_val;
+          temp.style.height = input_val + "px";
+          if(direction == "left"){
+              $ul.insertBefore(temp,$ul.firstChild);           
+          }else{
+              $ul.appendChild(temp);
+          }
+      }
+  }
+  // 出
+  function out(direction,elment){
+    var value = parseInt(elment.innerHTML);
+    for (var i = 0; i < val_arr.length; i++) {
+      if(val_arr[i] == value){
+         val_arr.splice(i,1);
+      }
+    }
+    if(direction == "left"){
+      $ul.removeChild($ul.firstChild);
+    }else{
+      $ul.removeChild($ul.lastChild);
+    }
+  }
+
+// 排序
+function sort(val_arr){
+  console.log(val_arr);
+  var len = val_arr.length;
+  for (var i = 0; i < len; i++) {
+      for (var j = i+1; j < len; j++) {
+          if(val_arr[i] > val_arr[j]){
+              var tem = val_arr[j];
+              val_arr[j] = val_arr[i];
+              val_arr[i] = tem;
+          }
+      }
+  }
+  return val_arr;
+}
+// 排序的数可视化
+function initHtml(val_arr){
+  $ul.innerHTML = "";
+  for (var i = 0; i < val_arr.length; i++) {
+      var temp = document.createElement("li");
+      temp.className = "item_content";
+      temp.innerHTML = val_arr[i];
+      temp.style.height = val_arr[i] + "px";
+      $ul.append(temp);
+  }
+  
+}
+
+  $l_i.addEventListener("click",function(){ins("left");});
+  $l_u.addEventListener("click",function(){out("left", event.target);});
+  $r_i.addEventListener("click",function(){
+      ins("right");
+  },false);
+  $r_u.addEventListener("click",function(event){
+    out("right", event.target);
+  });
+  $ul.addEventListener("click",function(event){
+     $ul.removeChild(event.target);
+     var value = parseInt(event.target.innerHTML);
+    for (var i = 0; i < val_arr.length; i++) {
+      if(val_arr[i] == value){
+         val_arr.splice(i,1);
+      }
+    }
+  });
+  $sort.addEventListener("click",function(){
+      initHtml(sort(val_arr));
+    
+  });
+</script>
+</body>
+</html>

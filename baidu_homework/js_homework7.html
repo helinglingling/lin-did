@@ -1,0 +1,118 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 07</title>
+    <style type="text/css">
+    	div{
+    		display: flex;
+    		justify-content: space-between;
+    		flex-wrap: wrap;
+    		border:1px solid #000;
+    		padding: 20px;
+    		margin: 5px;
+			box-sizing: border-box;
+			background-color: #fff;
+    	}
+    	.a{
+    		margin-bottom: 20px;
+    	}
+    </style>
+</head>
+<body>
+<div class="a">root
+	<div class="b">b
+		<div class="d">d
+			<div class="h">h</div>
+			<div class="i">i</div>
+		</div>
+		<div class="e">e
+			<div class="j">j</div>
+			<div class="k">k</div>
+		</div>
+	</div>
+	<div class="c">c
+		<div class="f">f
+			<div class="l">l</div>
+			<div class="m">m</div>
+		</div>
+		<div class="g">g
+			<div class="n">n</div>
+			<div class="o">o</div>
+		</div>
+	</div>
+
+</div>
+<button class="front">前序遍历</button>
+<button class="middle">中序遍历</button>
+<button class="after">后序遍历</button>
+<script type="text/javascript">
+	var elements = [];
+
+	function preOrder(node){
+		if (node) {
+			elements.push(node);
+			preOrder(node.firstElementChild);
+			preOrder(node.lastElementChild);
+		}
+	}
+
+	function inOrder(node){
+		if (node) {
+			inOrder(node.firstElementChild);
+			elements.push(node);
+			inOrder(node.lastElementChild);
+		}
+	}
+
+	function nextOrder(node){
+		if (node) {
+			nextOrder(node.firstElementChild);
+			nextOrder(node.lastElementChild);
+			elements.push(node);
+		}
+	}
+
+	function show(){
+		console.log(elements,elements.length);
+		var i = 0;		
+		var times= setInterval(function(){
+			elements[i].style.backgroundColor = "red";
+			i++;
+			if (i == elements.length) {
+				clearInterval(times);
+			}
+			setTimeout(function(){		
+				reset();	
+			},790)	
+		},800);	
+	}
+
+	function reset(){
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].style.backgroundColor = "white";
+		}
+
+	}
+	var $root = document.querySelector(".a");
+	var $pre = document.querySelector(".front");
+	var $in = document.querySelector(".middle");
+	var $next = document.querySelector(".after");
+	$pre.addEventListener("click",function(){
+		elements = [];
+		preOrder($root);
+		show();
+	});
+	$in.addEventListener("click",function(){
+		elements = [];
+		inOrder($root);
+		show();
+	});
+	$next.addEventListener("click",function(){
+		elements = [];
+		nextOrder($root);
+		show();
+	})
+</script>
+</body>
+</html>

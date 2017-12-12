@@ -1,0 +1,292 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>表单验证2</title>
+    <style type="text/css">
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin:0;
+        }  
+        .form{
+            padding:20px;
+        }
+        .input_item{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    	.input_item input{
+            line-height: 18px;
+            padding: 8px 10px;
+            border:1.5px solid #ccc;
+            border-radius: 4px;
+            flex: 1;
+            font-size: 16px;
+        }
+        .input_item label{
+            width: 25%;
+            text-align: right;
+            padding-right: 20px;
+        }
+        .tips{
+            display: none;
+            line-height: 40px;
+            margin-left: 25%;
+            margin-bottom: 20px;
+        }
+        .tips.error{
+            color: red;
+        }
+        .tips.correct{
+            color: green;
+        }
+        .submit{
+            width: 70px;
+            height: 30px;
+            background-color: blue;
+            border:1px solid blue;
+            border-radius: 4px;
+            color: #fff;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <form name="myFrom" class="form">
+        <section class="input_item">
+            <label>名称</label>
+            <input type="text" name="username" value="">
+        </section>
+        <p class="tips">必填，长度为4-16个字符</p>
+        <section class="input_item">
+            <label>密码</label>
+            <input type="password" name="password" value="">
+        </section>
+        <p class="tips">必填，密码长度为4-16个字符</p>
+        <section class="input_item">
+            <label>密码确认</label>
+            <input type="password" name="password2" value="">
+        </section>
+        <p class="tips">再输入相同密码</p>
+        <section class="input_item">
+            <label>邮箱</label>
+            <input type="text" name="email" value="">
+        </section>
+        <p class="tips">输入正确的邮箱</p>
+        <section class="input_item">
+            <label>手机</label>
+            <input type="text" name="phone" value="">
+        </section>
+        <p class="tips">输入正确的手机号码</p>
+        <input type="button" class="submit" name="submit" value="提交">
+    </form>
+<script type="text/javascript">
+    var myForm = document.querySelector(".form");
+    var input1 = myForm.elements["username"];
+    var input2 = myForm.elements["password"];
+    var input3 = myForm.elements["password2"];
+    var input4 = myForm.elements["email"];
+    var input5 = myForm.elements["phone"];
+    var submit = myForm.elements["submit"];
+    // 错误消息提醒
+    var tips1Arr = ["必填，长度为4-16个字符","名称不能为空","名称格式正确"];
+    var tips2Arr = ["必填，密码长度为4-16个字符","密码不能为空","密码可用"];
+    var tips3Arr = ["再输入相同密码","密码输入要一致","确认密码正确"];
+    var tips4Arr = ["输入正确的邮箱","邮箱格式错误","邮箱格式正确"];
+    var tips5Arr = ["输入正确的手机号码","手机号码错误","手机格式正确"];
+    // 初始化 名称输入提示
+    window.onload = function(){
+        input1.focus();
+        input1.parentNode.nextElementSibling.style.display = "block";
+        input1.parentNode.nextElementSibling.innerHTML = tips1Arr[0];
+    }
+    // 名称验证
+    input1.addEventListener("blur",function(event){
+        blurUsername(event);
+    });
+    // 密码验证
+    input2.addEventListener("blur",function(event){
+        blurPassword(event);       
+    });
+    // 确认密码认证
+    input3.addEventListener("blur",function(event){
+        blurPassword2(event);
+    });
+    // 邮箱认证
+    input4.addEventListener("blur",function(event){
+        blurEmail(event);
+    });
+    // 手机号码验证
+    input5.addEventListener("blur",function(event){
+        blurPhone(event);
+    });
+    // focus时提示信息显示
+    myForm.addEventListener("focusin",function(event){
+        if (event.target.className == "submit") {
+            return;
+        }
+        event.target.parentNode.nextElementSibling.style.display = "block";
+    });
+    submit.addEventListener("click",function(event){
+        if (blurUsername(event)) {
+            if (blurPassword(event)) {
+                if (blurPassword2(event)) {
+                    if(blurEmail(event)){
+                        if (blurPhone(event)) {
+                            alert("数据提交成功")
+                        }else{
+                            alert("手机号码错误");
+                        }
+                    }else{
+                        alert("邮箱格式错误！");
+                    }
+                }else{
+                    alert("确认密码有误");
+                }
+            }else{
+                alert("密码有误");
+            }
+        }else{
+            alert("名称格式有误");
+        }
+    });
+    // 名称验证
+    function blurUsername(event){
+        var len = 0,tips1;
+        var name_txt = myForm.elements["username"].value;
+        len = getLen(name_txt);
+        if (!name_txt){
+            // 错误额情况
+            tips1 = tips1Arr[1];
+            setTips(event,true,tips1);
+        }else{
+            if (len > 16 || len < 4) {
+                tips1 = tips1Arr[0];
+                setTips(event,true,tips1);
+            }else{
+                // 正确的情况
+                tips1 = tips1Arr[2];
+                setTips(event,false,tips1);
+                nextFocus(myForm,event);
+                return true;
+            }
+        }
+        return false;       
+    }
+
+    // 密码验证
+    function blurPassword(event){
+        var len = 0,tips2;
+        var pass_txt = myForm.elements["password"].value;
+        len = getLen(pass_txt);
+            // 错误额情况
+        if (!pass_txt){
+            tips2 = tips2Arr[1];
+            setTips(event,true,tips2);
+        }else{
+            if (len > 16 || len < 4) {
+                tips2 = tips2Arr[0];
+                setTips(event,true,tips2);
+            }else{
+            // 正确的情况
+                tips2 = tips2Arr[2];
+                setTips(event,false,tips2);
+                nextFocus(myForm,event);
+                return true;
+            }
+        }       
+        return false;
+    }
+    
+    // 确认密码认证
+    function blurPassword2(event){
+        var tips3;
+        var pass_txt = myForm.elements["password"].value;
+        var pass_txt2 = myForm.elements["password2"].value;
+        if (pass_txt2 == pass_txt && pass_txt2 != "") {
+            tips3 = tips3Arr[2];
+            setTips(event,false,tips3);
+            nextFocus(myForm,event);
+            return true;
+        }else{
+            tips3 = tips3Arr[1];
+            setTips(event,true,tips3);
+        }
+        return false;
+    }
+    
+    // 邮箱认证
+    function blurEmail(event){
+        var tips4;
+        var email = myForm.elements["email"].value;
+        if (/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(email)) {
+            tips4 = tips4Arr[2];
+            setTips(event,false,tips4);
+            nextFocus(myForm,event);
+            return true;
+        }else{
+            tips4 = tips4Arr[1];
+            setTips(event,true,tips4);
+        }
+        return false;
+    }
+    
+    // 手机号码验证
+    function blurPhone(event){
+        var tips5;
+        var phone = myForm.elements["phone"].value;
+        if (/^(\d{11})$/.test(phone)) {
+            tips5 = tips5Arr[2];
+            setTips(event,false,tips5);
+            nextFocus(myForm,event);
+            return true;
+        }else{
+            tips5 = tips5Arr[1];
+            setTips(event,true,tips5);
+        }
+        return false;
+    }
+    // 字符长度
+    function getLen(name_txt){
+        var len = 0;
+        if (name_txt) {
+            for (var i = 0; i < name_txt.length; i++) {
+                var item = name_txt.charCodeAt(i);
+                if (item > 255) {
+                    len += 2;
+                }else{
+                    len += 1;
+                }
+            }
+        }
+        return len;
+    }
+    // 提示显示
+    function setTips(event,isError,tips){
+        var $tips = event.target.parentNode.nextElementSibling;
+        if (isError) {
+            $tips.className = "tips error";
+            event.target.style.borderColor = "red"; 
+        }else{
+            $tips.className = "tips correct";
+            event.target.style.borderColor = "green";
+        }
+        
+        $tips.innerHTML = tips;
+    }
+    // 下一个焦点
+    function nextFocus(form,event){
+        for (var i = 0; i < form.elements.length; i++) {
+            if(form.elements[i] == event.target){
+                form.elements[i+1].focus();
+                form.elements[i+1].parentNode.nextElementSibling.style.display = "block";
+            }
+        }
+    }  
+</script>
+</body>
+</html>

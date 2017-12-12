@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>照片3D旋转</title>
+    <style>
+        .content{
+            width: 1000px;
+            height: 400px;
+            margin: 0 auto;
+            box-shadow: 0 0 5 #cf6;
+            -webkit-perspective: 800px;
+            perspective: 800px;
+        }
+        .showArea{
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: 20%;
+            left: 40%;
+            transform-style:preserve-3d;
+            backface-visibility:hidden;
+            transform: rotateY(0deg);
+            transition: transform 1s;
+        }
+        .showArea img{
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            bottom: 0;
+
+            cursor: pointer;
+        }
+        .showArea img:nth-child(1){transform:rotateY(0deg) translateZ(300px);}
+        .showArea img:nth-child(2){transform:rotateY(40deg) translateZ(300px);}
+        .showArea img:nth-child(3){transform:rotateY(80deg) translateZ(300px);}
+        .showArea img:nth-child(4){transform:rotateY(120deg) translateZ(300px);}
+        .showArea img:nth-child(5){transform:rotateY(160deg) translateZ(300px);}
+        .showArea img:nth-child(6){transform:rotateY(200deg) translateZ(300px);}
+        .showArea img:nth-child(7){transform:rotateY(240deg) translateZ(300px);}
+        .showArea img:nth-child(8){transform:rotateY(280deg) translateZ(300px);}
+        .showArea img:nth-child(9){transform:rotateY(320deg) translateZ(300px);}
+    </style>
+</head>
+<body>
+<div class="content">
+    <div class="showArea">
+        <img src="../image/P_000.jpg">
+        <img src="../image/P_001.jpg">
+        <img src="../image/P_002.jpg">
+        <img src="../image/P_003.jpg">
+        <img src="../image/P_004.jpg">
+        <img src="../image/P_005.jpg">
+        <img src="../image/P_006.jpg">
+        <img src="../image/P_007.jpg">
+        <img src="../image/P_008.jpg">
+    </div>
+</div>
+<script src="../js/jquery.js"></script>
+<script>
+    $(function(){
+        var deg = 0;
+        $(".content").click(function(){
+            deg -= 40;
+            $(this).find(".showArea").css("transform","rotateY(" + deg + "deg)");
+        });
+    })
+</script>
+</body>
+</html>
