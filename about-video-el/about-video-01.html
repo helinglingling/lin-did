@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>视频</title>
+	 <meta name="viewport" content="width=device-width,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
+	 <link rel="stylesheet" type="text/css" href="css/video-01.css">
+</head>
+<body>
+	<div class="video-duang">
+<!-- webkit-playsinline : 在ios中，加入此属性，可以关闭自动全屏播放
+	object-fit:fill : 视频充满video容器的大小
+	poster 里面放一个url，用来显示没有比方时的图片 -->
+<video webkit-playsinline poster="">
+  <source src="images/xiaozi.mp4" type="video/mp4" />
+  <source src="images/xiaozi.ogg" type="video/ogg" />
+  <source src="images/xiaozi.webm" type="video/webm" />
+  <object data="images/xiaozi.mp4" >
+    <embed src="images/xiaozi.swf"/>
+  </object>
+  <p>您的浏览器不支持该视频播放</p>
+</video>
+<div class="start-stop"><div class="in-img"></div></div>
+<div class="statue">
+	<div class="processing"><div class="current"></div></div>
+	<div class="others">
+	<span class="timing">00:00</span>/<span class="allTime">00:00</span>
+	<span class="isFull">全屏</span>
+	</div>
+</div>
+<!-- 
+优酷解决方案
+在 HTML 中显示视频的最简单的方法是使用优酷等视频网站。
+如果您希望在网页中播放视频，那么您可以把视频上传到优酷等视频网站，然后在您的网页中插入 HTML 代码即可播放视频：
+<embed src="http://player.youku.com/player.php/sid/XMzI2NTc4NTMy/v.swf" 
+width="480" height="400" 
+type="application/x-shockwave-flash">
+</embed>
+ -->
+<!-- 
+使用超链接
+<a href="movie.swf">Play a video file</a>
+ -->
+</div>
+
+
+	<script type="text/javascript" src = js/video-01.js></script>
+</body>
+</html>

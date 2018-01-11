@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>视频</title>
+	 <meta name="viewport" content="width=device-width,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
+	 <link rel="stylesheet" type="text/css" href="css/css.css">
+</head>
+<body>
+<div class="video_duang">
+<!-- webkit-playsinline : 在ios中，加入此属性，可以关闭自动全屏播放
+	object-fit:fill : 视频充满video容器的大小
+	poster 里面放一个url，用来显示没有比方时的图片 -->
+
+	<video id="video" webkit-playsinline>
+		<source src="images/fiveYear.mp4" type="video/mp4" />
+		<source src="images/fiveYear.webm" type="video/webm" />
+		<object>
+		    <embed src="images/fiveYear.mp4" type= "application/x-shockwave-flash" allowfullscreen="false" allowscriptaccess="always" />
+		</object> 
+		您的浏览器不支持该视频播放
+		<a href="fiveYear.mp4">下载该视频</a>
+	</video>
+	<div id="buttonbar">
+		<div id="initbar">
+			<!-- <img src="images/play_small.png" class="icon_play"> -->
+			<p id="play"> > </p>
+			<span id="curTime"></span> | <span id="vRemaining"></span>	
+			<span id="vLen"></span>
+			<span id="allView">全屏</span>
+		</div>
+	</div>
+
+</div>
+<!-- <script type="text/javascript" src="js/lynn.js"></script> -->
+</body>
+</html>
