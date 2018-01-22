@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.wrapper div:nth-of-type(1){
+			background-color: red;
+		}
+		.wrapper div:nth-of-type(2){
+			background-color: yellow;
+		}
+		.wrapper div:nth-of-type(3){
+			background-color: lightblue;
+		}		
+		.wrapper div:nth-of-type(4){
+			background-color: lightgreen;
+		}
+		.wrapper div:nth-of-type(5){
+			background-color: lightpink;
+		}
+		.wrapper div:nth-of-type(6){
+			background-color: lightcyan;
+		}
+		.wrapper{
+			background-color: #fff;
+			text-align: center;
+			display: grid;
+			grid-template-columns: 100px 100px 100px;
+			grid-template-rows:  100px 100px 100px;
+		}
+		.item1{
+			grid-column-start: 1;
+			grid-column-end: 3;
+			/*grid-column: 1/4;*/   
+		}
+		.item3{
+			grid-row-start: 2;
+			grid-row-end: 4;
+		}
+		.item4{
+			grid-column-start: 2;
+			grid-column-end: 4;
+		}
+
+	</style>
+</head>
+<body>
+
+	<div class="wrapper">
+		<div class="item1">1</div>
+		<div class="item2">2</div>
+		<div class="item3">3</div>
+		<div class="item4">4</div>
+		<div class="item5">5</div>
+		<div class="item6">6</div>
+	</div>
+
+
+</body>
+</html>
